@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 import TemuBalik
 
 # Inisialisasi aplikasi FastAPI
@@ -17,11 +16,6 @@ app.add_middleware(
 )
 
 templates = Jinja2Templates(directory="templates")
-
-# Schema data input menggunakan Pydantic
-class InputData(BaseModel):
-    query: str
-    directory_path: str
 
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
