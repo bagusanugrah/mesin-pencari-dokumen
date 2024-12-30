@@ -1,5 +1,5 @@
 # Aplikasi Mesin Pencari Dokumen
-Aplikasi Mesin Pencari Dokumen dengan metode temu balik VSM.
+Aplikasi Mesin Pencari Dokumen berbahasa indonesia dengan metode temu balik VSM.
 
 ## Cara Menjalankan Aplikasi
 Install semua library yang dibutuhkan dengan perintah
