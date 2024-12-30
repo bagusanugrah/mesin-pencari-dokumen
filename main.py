@@ -43,7 +43,7 @@ async def process_data(request: Request, input_query: str = Form(...), input_dir
 
         list_dokumen = TemuBalik.bacaIsiDokumen(directory_path)
 
-        hasil_vsm = TemuBalik.temuBalikVSM(list_dokumen, TemuBalik.prosesQuery(query.lower()))
+        hasil_vsm = TemuBalik.temuBalikVSM(list_dokumen, query_info)
 
         result = {
             "directory_path": directory_path,
