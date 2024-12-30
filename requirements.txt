@@ -1,6 +1,6 @@
 pandas
 pypdf
-docx
+python-docx
 fastapi
 uvicorn
 jinja2
