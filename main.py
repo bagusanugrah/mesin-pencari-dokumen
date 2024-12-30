@@ -37,9 +37,11 @@ async def process_data(request: Request, input_query: str = Form(...), input_dir
         directory_path = input_directory_path
         daftar_file = TemuBalik.cekDirectoryPath(directory_path)
 
+        #jika query tidak diisi
         if not query.strip():
             raise ValueError("Query tidak boleh kosong")
         
+        #jika query tidak mengandung huruf sama sekali
         if not any(char.isalpha() for char in query):
             raise ValueError("Query harus mengandung huruf")
 
