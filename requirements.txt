@@ -2,5 +2,6 @@ pandas
 pypdf
 docx
 fastapi
+uvicorn
 jinja2
 pydantic
