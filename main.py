@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 import TemuBalik
@@ -14,6 +15,9 @@ app.add_middleware(
     allow_headers=["*"],  # Mengizinkan semua header
     expose_headers=["Content-Disposition"],  # Mengizinkan akses header tertentu
 )
+
+# Mount folder static untuk file CSS, JS, dll.
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
