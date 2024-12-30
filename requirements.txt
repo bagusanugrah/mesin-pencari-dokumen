@@ -1,0 +1,6 @@
+pandas
+pypdf
+docx
+fastapi
+jinja2
+pydantic

@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block body %}
+<div class="row justify-content-md-center">
+    <div class="text-center">
+        <h2 class="text-danger">Error {{ status_code }}</h2>
+        <p>{{ detail }}</p>
+        <a href="/" class="btn btn-primary">Kembali ke Beranda</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "index.html" %}
+{% block body %}
+{% if data %}
+<nav>
+    <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+      <button class="nav-link active" id="daftar-file-tab" data-bs-toggle="tab" data-bs-target="#nav-daftar-file" type="button" role="tab" aria-controls="nav-daftar-file" aria-selected="true">Daftar File</button>
+      <button class="nav-link" id="query-info-tab" data-bs-toggle="tab" data-bs-target="#nav-query-info" type="button" role="tab" aria-controls="nav-query-info" aria-selected="false">Query Info</button>
+      <button class="nav-link" id="hasil-pencarian-tab" data-bs-toggle="tab" data-bs-target="#nav-hasil-pencarian" type="button" role="tab" aria-controls="nav-hasil-pencarian" aria-selected="false">Hasil Pencarian</button>
+    </div>
+</nav>
+<div class="tab-content container col-md-8 mt-3" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-daftar-file" role="tabpanel" aria-labelledby="daftar-file-tab" tabindex="0">
+      <div class="container mb-3">
+        <p>Directory path: <b>{{ data.directory_path }}</b></p>
+        <p>Daftar file:</p>
+        <ul class="list-group">
+            {% for nama_file in data.daftar_file %}
+            <li class="list-group-item list-group-item-action">{{ nama_file }}</li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="nav-query-info" role="tabpanel" aria-labelledby="query-info-tab" tabindex="0">
+      <div class="container mb-3">
+        <p>
+          <b>Query:</b> {{ data.query_info.query }}
+        </p>
+        <div class="card">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab-query" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="query-tab-one" data-bs-toggle="tab" data-bs-target="#query-content-one" type="button" role="tab" aria-controls="query-content-one" aria-selected="true">Hasil Stemming</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="query-tab-two" data-bs-toggle="tab" data-bs-target="#query-content-two" type="button" role="tab" aria-controls="query-content-two" aria-selected="false">Jumlah Kata Dasar</button>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content" id="myTabContent-query">
+              <div class="tab-pane fade show active" id="query-content-one" role="tabpanel" aria-labelledby="query-tab-one">
+                <p>
+                  Banyaknya kata yang distem: <b>{{ data.query_info.total_stemming }}</b>
+                </p>
+                <ol class="list-group list-group-numbered">
+                    {% for kata in data.query_info.hasil_stemming %}
+                        {% for kata_asal, kata_dasar in kata.items() %}
+                        <li class="list-group-item list-group-item-action list-group-item-dark"><b>{{ kata_asal }}:</b> {{ kata_dasar }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ol>
+              </div>
+              <div class="tab-pane fade" id="query-content-two" role="tabpanel" aria-labelledby="query-tab-two">
+                <p>
+                  Total kata dasar: <b>{{ data.query_info.total_kata_dasar }}</b>
+                </p>
+                <ol class="list-group list-group-numbered">
+                    {% for kata_dasar, jumlah in data.query_info.jumlah_kata_dasar.items() %}
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        {{ kata_dasar }}
+                        <span class="badge text-bg-primary rounded-pill">{{ jumlah }}</span>
+                    </li>
+                    {% endfor %}
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="nav-hasil-pencarian" role="tabpanel" aria-labelledby="hasil-pencarian-tab" tabindex="0">
+      <div class="container mb-3">
+        {% for dokumen in data.hasil_temu_balik %}
+        <div class="card mt-3">
+          <div class="card-header">
+            <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{{ dokumen.path }}" target="_blank">
+              {{ dokumen.nama }}
+            </a>
+          </div>
+          <div class="card-body">
+            <p><b>Path:</b> {{ dokumen.path }}</p>
+            <p><b>Similarity:</b> {{ dokumen.similarity }}</p>
+            <div class="card">
+              <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="tabCard{{ loop.index }}" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tabCard{{ loop.index }}-one" data-bs-toggle="tab" data-bs-target="#contentCard{{ loop.index }}-one" type="button" role="tab" aria-controls="contentCard{{ loop.index }}-one" aria-selected="true">Hasil Stemming</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tabCard{{ loop.index }}-two" data-bs-toggle="tab" data-bs-target="#contentCard{{ loop.index }}-two" type="button" role="tab" aria-controls="contentCard{{ loop.index }}-two" aria-selected="false">Jumlah Kata Dasar</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tabCard{{ loop.index }}-three" data-bs-toggle="tab" data-bs-target="#contentCard{{ loop.index }}-three" type="button" role="tab" aria-controls="contentCard{{ loop.index }}-three" aria-selected="false">Sama Dengan Query</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="tabContentCard{{ loop.index }}">
+                  <div class="tab-pane fade show active" id="contentCard{{ loop.index }}-one" role="tabpanel" aria-labelledby="tabCard{{ loop.index }}-one">
+                    <p>
+                      Banyaknya kata yang distem: <b>{{ dokumen.total_stemming }}</b>
+                    </p>
+                    <ol class="list-group list-group-numbered">
+                        {% for kata in dokumen.hasil_stemming %}
+                            {% for kata_asal, kata_dasar in kata.items() %}
+                            <li class="list-group-item list-group-item-action list-group-item-dark"><b>{{ kata_asal }}:</b> {{ kata_dasar }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ol>
+                  </div>
+                  <div class="tab-pane fade" id="contentCard{{ loop.index }}-two" role="tabpanel" aria-labelledby="tabCard{{ loop.index }}-two">
+                    <p>
+                      Total kata dasar: <b>{{ dokumen.total_kata_dasar }}</b>
+                    </p>
+                    <ol class="list-group list-group-numbered">
+                        {% for kata_dasar, jumlah in dokumen.jumlah_kata_dasar.items() %}
+                        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            {{ kata_dasar }}
+                            <span class="badge text-bg-primary rounded-pill">{{ jumlah }}</span>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                  </div>
+                  <div class="tab-pane fade" id="contentCard{{ loop.index }}-three" role="tabpanel" aria-labelledby="tabCard{{ loop.index }}-three">
+                    <ul class="list-group">
+                        {% for kata_dasar, jumlah in dokumen.sama_dengan_query.items() %}
+                        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            {{ kata_dasar }}
+                            <span class="badge text-bg-primary rounded-pill">{{ jumlah }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
